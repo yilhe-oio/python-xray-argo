@@ -1,0 +1,31 @@
+name: Wake Up Streamlit (version.txt)
+
+on:
+  schedule:
+    # 每 12 小时运行一次（UTC 0:00 和 12:00）
+    - cron: '0 */12 * * *'
+  workflow_dispatch:      # 也支持手动触发
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # 需要写入权限才能 push
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Write timestamp to version.txt
+        run: |
+          echo "LAST_POKE=$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S CST')" > version.txt
+          cat version.txt
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.txt
+          git diff --staged --quiet || git commit -m "chore: poke version.txt to wake up Streamlit [skip ci]"
+          git push
+
