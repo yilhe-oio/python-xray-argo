@@ -1,0 +1,16 @@
+name: Keep Streamlit Alive
+
+on:
+  schedule:
+    # 每隔 10 分钟运行一次（可根据需要调整 Cron 表达式）
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send HTTP request to Streamlit app
+        run: |
+          curl -I https://xixoon.streamlit.app
+
