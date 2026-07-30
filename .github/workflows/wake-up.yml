@@ -3,7 +3,7 @@ name: Wake Up Streamlit (version.txt)
 on:
   schedule:
     # 每 12 小时运行一次（UTC 0:00 和 12:00）
-    - cron: '0 */12 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:      # 也支持手动触发
 
 jobs:
